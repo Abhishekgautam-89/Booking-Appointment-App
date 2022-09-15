@@ -1,18 +1,33 @@
-
 var submit = document.getElementById('submit');
+const list = document.getElementById('users');
+
+
+Object.keys(localStorage).forEach((key)=>{
+    var detailsOfPeople = JSON.parse(localStorage.getItem(key));
+    showDataOnScreen(detailsOfPeople);
+}
+);  
 
 submit.addEventListener('click', onSubmit);
 function onSubmit(e){
-var name1 = document.getElementById('name').value;
+e.preventDefault();
+var name = document.getElementById('name').value;
 var email = document.getElementById('email').value;
-var phone1 = document.getElementById('phone').value;
+var phone = document.getElementById('phone').value;
 
 var obj = {
-name1,
+name,
 email,
-phone1
+phone
 };
 var objConverted = JSON.stringify(obj);
-e.preventDefault();
-localStorage.setItem("User Details", objConverted);
+
+localStorage.setItem(obj.email, objConverted);
+showDataOnScreen(obj);
+}
+function showDataOnScreen(user){
+    const li = document.createElement('li');
+    li.id = 'userList';
+    li.appendChild(document.createTextNode(user.name+' '+user.email));
+    list.appendChild(li);
 }
